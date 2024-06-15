@@ -6,7 +6,16 @@
   height: 40vmin;
   pointer-events: none;
 }
+.App {
+  background-color: #f0f2f5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
+footer {
+  margin-top: auto;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
