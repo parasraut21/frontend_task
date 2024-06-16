@@ -13,21 +13,16 @@ function App() {
   ]);
 
   const addTask = (newTask) => {
-    // Assuming newTask has a unique _id
+
     setTasks([...tasks, newTask]);
   };
 
   const deleteTask = (taskId) => {
-    setTasks(tasks.filter(task => task._id !== taskId));
+    setTasks(tasks.filter(task => task.id !== taskId)); 
   };
 
   const updateTask = (updatedTask) => {
-    setTasks(tasks.map(task => {
-      if (task._id === updatedTask._id) {
-        return updatedTask;
-      }
-      return task;
-    }));
+    setTasks(tasks.map(task => task.id === updatedTask.id ? updatedTask : task));
   };
 
   return (

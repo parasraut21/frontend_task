@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Ensure Bootstrap CSS is imported
 
 const TaskItem = ({ task, deleteTask, updateTask }) => {
   const [showModal, setShowModal] = useState(false);
@@ -9,27 +8,29 @@ const TaskItem = ({ task, deleteTask, updateTask }) => {
   const [newDescription, setNewDescription] = useState(task.description);
   const [showDescription, setShowDescription] = useState(false);
 
-  const handleDelete = () => {
+  // Reset internal state when task prop changes
+  useEffect(() => {
+    setNewText(task.text);
+    setNewDescription(task.description);
+  }, [task]);
+
+  const handleDelete = (taskId) => {
     try {
-   
-      deleteTask(task._id);
+      deleteTask(taskId); // Pass taskId to deleteTask
       toast.success('Task deleted successfully!');
     } catch (error) {
       toast.error('Error deleting task.');
     }
   };
-  
+
   const handleUpdate = () => {
     if (!newText.trim() || !newDescription.trim()) {
       toast.warn('Both title and description are required.');
       return;
     }
-  
+
     try {
-
       const updatedTask = { ...task, text: newText, description: newDescription };
-  
-
       updateTask(updatedTask);
       setShowModal(false);
       toast.success('Task updated successfully!');
@@ -40,13 +41,14 @@ const TaskItem = ({ task, deleteTask, updateTask }) => {
 
   const toggleDescription = () => setShowDescription(!showDescription);
 
+
   return (
     <>
       <div className="list-group-item d-flex flex-column justify-content-between align-items-start bg-light">
         <div className="d-flex justify-content-between align-items-center w-100">
           <span className="text-primary">{task.text}</span>
           <div>
-            <button className="btn btn-danger btn-sm me-2" onClick={handleDelete}>Delete</button>
+          <button className="btn btn-danger btn-sm me-2" onClick={() => handleDelete(task.id)}>Delete</button> 
             <button className="btn btn-primary btn-sm" onClick={() => setShowModal(true)}>Edit</button>
           </div>
         </div>
