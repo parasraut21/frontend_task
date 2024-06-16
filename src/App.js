@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import TaskInput from './components/TaskInput';
@@ -7,18 +7,13 @@ import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 
 function App() {
-  const [tasks, setTasks] = useState([]);
 
-  useEffect(() => {
-    const fetchTasks = async () => {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/tasks`);
-      const data = await response.json();
-      setTasks(data);
-    };
-    fetchTasks();
-  }, []);
+  const [tasks, setTasks] = useState([
+    
+  ]);
 
   const addTask = (newTask) => {
+    // Assuming newTask has a unique _id
     setTasks([...tasks, newTask]);
   };
 
@@ -43,7 +38,7 @@ function App() {
         </Container>
       </Navbar>
       <Container className="mt-5">
-      <h1 className="text-center mb-4" style={{ color: '#0056b3' }}>Plan Your Itinerary</h1>
+        <h1 className="text-center mb-4" style={{ color: '#0056b3' }}>Plan Your Itinerary</h1>
         <TaskInput addTask={addTask} />
         <TasksList tasks={tasks} deleteTask={deleteTask} updateTask={updateTask} />
       </Container>

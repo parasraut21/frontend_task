@@ -9,44 +9,35 @@ const TaskItem = ({ task, deleteTask, updateTask }) => {
   const [newDescription, setNewDescription] = useState(task.description);
   const [showDescription, setShowDescription] = useState(false);
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/tasks/${task._id}`, {
-        method: 'DELETE'
-      });
-      if (!response.ok) throw new Error('Failed to delete the task.');
+   
       deleteTask(task._id);
       toast.success('Task deleted successfully!');
     } catch (error) {
-      toast.error(error.message || 'Error deleting task.');
+      toast.error('Error deleting task.');
     }
   };
-
-  const handleUpdate = async () => {
+  
+  const handleUpdate = () => {
     if (!newText.trim() || !newDescription.trim()) {
       toast.warn('Both title and description are required.');
       return;
     }
-
+  
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/tasks/${task._id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ text: newText, description: newDescription })
-      });
 
-      if (!response.ok) throw new Error('Failed to update the task.');
-      const updatedTask = await response.json();
+      const updatedTask = { ...task, text: newText, description: newDescription };
+  
+
       updateTask(updatedTask);
       setShowModal(false);
       toast.success('Task updated successfully!');
     } catch (error) {
-      toast.error(error.message || 'Error updating task.');
+      toast.error('Error updating task.');
     }
   };
-  // Toggle description visibility
+
   const toggleDescription = () => setShowDescription(!showDescription);
 
   return (

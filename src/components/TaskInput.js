@@ -20,27 +20,27 @@ const TaskInput = ({ addTask }) => {
       toast.warn('Please fill in all fields.');
       return;
     }
-
+  
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/tasks`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ text: taskText, description: taskDescription })
-      });
-
-      if (!response.ok) {
-        throw new Error('Something went wrong!');
-      }
-
-      const data = await response.json();
-      addTask(data);
+   
+      const newTask = {
+        id: Date.now(), 
+        text: taskText,
+        description: taskDescription
+      };
+  
+     
+      addTask(newTask);
+  
+    
       setTaskText('');
       setTaskDescription('');
+  
+     
       toast.success('Task added successfully!');
     } catch (error) {
-      toast.error(error.message || 'Failed to add task!');
+      
+      toast.error('Failed to add task!');
     }
   };
 
